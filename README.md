@@ -1,6 +1,8 @@
 # Molva
 
 > **“Where all whispers meet”** — An ultra-lightweight, privacy-first, open-source workspace & messenger shell for **Windows, macOS, and Linux**, built with **Rust + Tauri v2** and native OS webviews (WebView2 / WKWebView / WebKitGTK, 0% Electron).
+>
+> *Note: Molva is designed **Windows-first** with deep native Win32 & WebView2 COM integrations (live process-tree RAM counter, low-memory target levels, native download manager, system idle auto-lock, startup registry, and global hotkeys). Experimental macOS and Linux builds are provided for core multi-webview session isolation and tab hibernation.*
 
 ## Highlights
 - **Session Isolation:** Every added service runs in its own sandboxed `data_directory` so multiple accounts stay completely separate.

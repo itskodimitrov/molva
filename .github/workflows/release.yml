@@ -58,5 +58,5 @@ jobs:
           releaseName: "Molva v__VERSION__"
           releaseBody: "Cross-platform release for Windows, macOS, and Linux."
           releaseDraft: true
-          prerelease: true
+          prerelease: false
           args: ${{ matrix.args }}
