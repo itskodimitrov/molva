@@ -14,6 +14,7 @@ import { ScratchpadPanel } from "./components/ScratchpadPanel";
 import { SettingsModal } from "./components/SettingsModal";
 import { Sidebar } from "./components/Sidebar";
 import { TitleBar } from "./components/TitleBar";
+import { faviconUrlFor, SERVICE_PRESETS } from "./constants/presets";
 import { appendSrcParam, useEcosystemFeed } from "./services/ecosystemFeed";
 import {
   AppConfig,
@@ -1069,7 +1070,26 @@ export function App() {
           />
         ) : (
           /* Empty Content Placeholder (covered by child WebView2 when a service is active) */
-          <main className="relative flex flex-1 flex-col items-center justify-center p-10 text-center">
+          <main className="relative flex flex-1 flex-col items-center justify-center overflow-hidden p-10 text-center">
+            {/* Subtle High-Craft Background Glow & Dot Matrix (Dark Themes) */}
+            {config.settings.theme !== "light" && (
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 overflow-hidden"
+              >
+                <div
+                  className="absolute inset-0 opacity-[0.18]"
+                  style={{
+                    backgroundImage:
+                      "radial-gradient(#232730 1px, transparent 1px)",
+                    backgroundSize: "24px 24px",
+                  }}
+                />
+                <div className="absolute left-1/2 top-1/2 h-[340px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#F59E0B]/[0.07] blur-[90px]" />
+                <div className="absolute left-1/2 top-[45%] h-[220px] w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#10B981]/[0.05] blur-[80px]" />
+              </div>
+            )}
+
             {/* Resizable Split View Divider (sits in the 6px gap between left and right WebView2) */}
             {splitServiceId && (
               <div
@@ -1084,33 +1104,56 @@ export function App() {
                 <span className="h-8 w-0.5 rounded-full bg-zinc-500/70" />
               </div>
             )}
-            <div className="mb-5 flex h-20 w-20 items-center justify-center rounded-3xl border border-[#232730] bg-[#15181E] p-4 shadow-2xl shadow-amber-500/10">
-              <img
-                src={logoImg}
-                alt="Molva"
-                className="h-full w-full object-contain"
-              />
-            </div>
+
             {(() => {
               const sleepingService = config.activeServiceId
                 ? config.services.find((s) => s.id === config.activeServiceId)
                 : null;
               const isSleeping =
                 sleepingService && !loadedServiceIds.has(sleepingService.id);
+              const quickStartPresets = SERVICE_PRESETS.filter((p) =>
+                ["whatsapp", "telegram", "discord", "messenger", "chatgpt"].includes(
+                  p.key
+                )
+              );
 
               return isSleeping && sleepingService ? (
                 <>
-                  <h1 className="text-2xl font-bold tracking-tight">
+                  <div className="relative z-10 mb-5 flex items-center gap-3">
+                    <div className="flex h-20 w-20 items-center justify-center rounded-3xl border border-[#232730] bg-[#15181E] p-4 shadow-2xl shadow-amber-500/10">
+                      <img
+                        src={logoImg}
+                        alt="Molva"
+                        className="h-full w-full object-contain"
+                      />
+                    </div>
+                    {sleepingService.iconUrl && (
+                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#232730] bg-[#15181E] p-2.5 shadow-xl">
+                        <img
+                          src={sleepingService.iconUrl}
+                          alt={sleepingService.name}
+                          className="h-full w-full rounded-lg object-contain"
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  <span className="relative z-10 mb-3 inline-flex items-center gap-1.5 rounded-full border border-[#10B981]/30 bg-[#10B981]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#10B981] shadow-[0_0_20px_rgba(16,185,129,0.18)]">
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#10B981]" />
+                    PROCESS CLOSED • 0 MB ACTIVE RAM
+                  </span>
+
+                  <h1 className="relative z-10 text-2xl font-bold tracking-tight">
                     {sleepingService.name} is sleeping
                   </h1>
-                  <p className="mt-2 max-w-md text-sm text-zinc-400">
+                  <p className="relative z-10 mt-2 max-w-md text-sm text-zinc-400">
                     Session cookies are safely preserved on disk while using 0
                     MB of RAM.
                   </p>
                   <button
                     type="button"
                     onClick={() => handleSelectService(sleepingService)}
-                    className="mt-6 flex items-center gap-2 rounded-xl bg-[#F59E0B] px-5 py-2.5 text-sm font-bold text-[#0D0F12] shadow-lg shadow-amber-500/15 transition-transform hover:scale-[1.02] hover:bg-amber-400"
+                    className="relative z-10 mt-6 flex items-center gap-2 rounded-xl bg-[#F59E0B] px-5 py-2.5 text-sm font-bold text-[#0D0F12] shadow-lg shadow-amber-500/15 transition-all hover:scale-[1.02] hover:bg-amber-400"
                   >
                     <Zap className="h-4 w-4" />
                     Wake Up {sleepingService.name}
@@ -1118,12 +1161,21 @@ export function App() {
                 </>
               ) : (
                 <>
-                  <h1 className="text-2xl font-bold tracking-tight">Molva</h1>
-                  <p className="mt-2 max-w-md text-sm text-zinc-400">
+                  <div className="relative z-10 mb-5 flex h-20 w-20 items-center justify-center rounded-3xl border border-[#232730] bg-[#15181E] p-4 shadow-2xl shadow-amber-500/10">
+                    <img
+                      src={logoImg}
+                      alt="Molva"
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                  <h1 className="relative z-10 text-2xl font-bold tracking-tight">
+                    Molva
+                  </h1>
+                  <p className="relative z-10 mt-2 max-w-md text-sm text-zinc-400">
                     Quiet space. Add your first chat to start the murmur.
                   </p>
 
-                  <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-[11px] font-medium text-zinc-400">
+                  <div className="relative z-10 mt-5 flex flex-wrap items-center justify-center gap-2 text-[11px] font-medium text-zinc-400">
                     <span className="rounded-full border border-[#232730] bg-[#15181E] px-3 py-1">
                       <span className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#10B981]" />
                       Isolated Sessions
@@ -1139,11 +1191,42 @@ export function App() {
                   <button
                     type="button"
                     onClick={() => setAddOpen(true)}
-                    className="mt-7 flex items-center gap-2 rounded-xl bg-[#F59E0B] px-5 py-2.5 text-sm font-bold text-[#0D0F12] shadow-lg shadow-amber-500/15 transition-transform hover:scale-[1.02] hover:bg-amber-400"
+                    className="relative z-10 mt-7 flex items-center gap-2 rounded-xl bg-[#F59E0B] px-5 py-2.5 text-sm font-bold text-[#0D0F12] shadow-lg shadow-amber-500/15 transition-all hover:scale-[1.02] hover:bg-amber-400"
                   >
                     <Plus className="h-4 w-4" />
                     Add Service
                   </button>
+
+                  {/* 1-Click Quick-Add Popular Services */}
+                  <div className="relative z-10 mt-6 flex flex-col items-center gap-2.5">
+                    <span className="text-[11px] font-medium text-zinc-500">
+                      Quick-add popular services in 1 click:
+                    </span>
+                    <div className="flex flex-wrap items-center justify-center gap-2">
+                      {quickStartPresets.map((preset) => {
+                        const icon = faviconUrlFor(preset.domain);
+                        return (
+                          <button
+                            key={preset.key}
+                            type="button"
+                            onClick={() =>
+                              handleAddService(preset.name, preset.url, icon)
+                            }
+                            className="group flex items-center gap-2 rounded-full border border-[#232730] bg-[#15181E]/90 px-3 py-1.5 text-xs font-medium text-zinc-200 transition-all hover:-translate-y-0.5 hover:border-[#F59E0B]/50 hover:bg-[#15181E] hover:text-white"
+                          >
+                            {icon && (
+                              <img
+                                src={icon}
+                                alt={preset.name}
+                                className="h-3.5 w-3.5 rounded-sm object-contain"
+                              />
+                            )}
+                            <span>{preset.name}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </>
               );
             })()}
@@ -1159,13 +1242,13 @@ export function App() {
                 );
 
                 return (
-                  <div className="mt-7 w-full max-w-xl rounded-2xl border border-[#232730] bg-[#15181E]/90 p-4 text-left shadow-lg">
+                  <div className="relative z-10 mt-7 w-full max-w-xl rounded-2xl border border-[#232730] border-l-2 border-l-[#F59E0B] bg-gradient-to-r from-[#F59E0B]/[0.05] via-[#15181E]/95 to-[#15181E]/95 p-4 text-left shadow-xl">
                     <p className="text-[11px] font-medium text-[#10B981]">
                       {isSleeping && sleepingService
                         ? `⚡ ${sleepingService.name} is hibernated — its WebView2 process is closed (0 MB active RAM) while session cookies stay preserved on disk.`
                         : "⚡ Molva is 100% free & open-source — built natively with Rust, Tauri v2, and Windows WebView2."}
                     </p>
-                    <div className="mt-2.5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#232730] bg-[#0D0F12]/80 px-3.5 py-2.5">
+                    <div className="mt-2.5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#232730] bg-[#0D0F12]/90 px-3.5 py-2.5">
                       <div className="min-w-0 flex-1">
                         <div className="truncate text-xs font-semibold text-zinc-100">
                           Support our work by checking out:{" "}
@@ -1187,7 +1270,7 @@ export function App() {
                             )
                           )
                         }
-                        className="shrink-0 rounded-lg bg-[#F59E0B] px-3 py-1.5 text-xs font-bold text-[#0D0F12] transition-colors hover:bg-amber-400"
+                        className="shrink-0 rounded-lg bg-[#F59E0B] px-3.5 py-1.5 text-xs font-bold text-[#0D0F12] shadow-md shadow-amber-500/15 transition-all hover:bg-amber-400 hover:shadow-amber-500/25"
                       >
                         {ecosystemFeed.featured_promo.cta_text}
                       </button>

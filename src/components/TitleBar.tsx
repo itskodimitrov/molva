@@ -108,12 +108,17 @@ export const TitleBar: React.FC<TitleBarProps> = ({
 
         <div
           data-tauri-drag-region
-          className={`hidden items-center gap-2 rounded-full border px-2.5 py-0.5 text-[11px] font-medium sm:flex ${
+          className={`hidden items-center gap-2 rounded-full border px-2.5 py-0.5 text-[11px] font-medium transition-all duration-200 sm:flex ${
             isLight
               ? "border-slate-200 bg-white text-slate-600"
               : "border-[#232730] bg-[#0D0F12]/80 text-zinc-400"
           }`}
         >
+          <span
+            className={`h-1.5 w-1.5 rounded-full transition-colors ${
+              activeServiceName ? "bg-[#F59E0B]" : "bg-[#10B981]"
+            }`}
+          />
           <ShieldCheck className="h-3 w-3 text-[#10B981]" />
           <span>{activeWorkspaceName}</span>
           {activeServiceName && (
@@ -193,8 +198,8 @@ export const TitleBar: React.FC<TitleBarProps> = ({
             title="What's New & Creator's Tools"
             className={`relative flex h-7 w-7 items-center justify-center rounded-md transition-colors ${
               isLight
-                ? "text-slate-600 hover:bg-slate-200"
-                : "text-zinc-400 hover:bg-white/[0.08] hover:text-[#F59E0B]"
+                ? "text-slate-600 hover:bg-[#F59E0B]/10 hover:text-[#F59E0B]"
+                : "text-zinc-400 hover:bg-[#F59E0B]/10 hover:text-[#F59E0B]"
             }`}
           >
             <Sparkles className="h-3.5 w-3.5" />

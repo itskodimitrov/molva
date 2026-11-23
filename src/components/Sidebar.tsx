@@ -238,14 +238,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {featuredPromo && !collapsed && (
         <div className="px-3 pb-2">
           <div
-            className={`group relative rounded-xl border p-3 transition-colors ${
+            className={`group relative rounded-xl border border-l-2 border-l-[#F59E0B] p-3 transition-all ${
               isLight
                 ? "border-slate-200 bg-white hover:border-amber-400"
-                : "border-[#232730] bg-[#15181E] hover:border-[#F59E0B]/40"
+                : "border-[#232730] bg-gradient-to-br from-[#F59E0B]/[0.05] to-[#15181E] hover:border-[#F59E0B]/40"
             }`}
           >
             <div className="mb-1.5 flex items-center justify-between gap-2">
-              <span className="rounded-md bg-[#F59E0B]/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#F59E0B]">
+              <span className="inline-flex items-center gap-1 rounded-md bg-[#F59E0B]/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#F59E0B]">
+                <Sparkles className="h-2.5 w-2.5" />
                 {featuredPromo.badge}
               </span>
               <button
@@ -266,7 +267,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               type="button"
               onClick={() => onOpenPromoUrl(featuredPromo.url)}
-              className="mt-2 text-[11px] font-bold text-[#F59E0B] transition-colors hover:text-amber-400"
+              className="mt-2 inline-flex items-center gap-1 text-[11px] font-bold text-[#F59E0B] transition-all group-hover:translate-x-0.5 hover:text-amber-400"
             >
               {featuredPromo.cta_text}
             </button>
@@ -297,10 +298,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 : "border-[#232730] bg-[#0D0F12]/70 text-zinc-400"
             }`}
           >
-            <span className="h-2 w-2 shrink-0 rounded-full bg-[#10B981]" />
+            <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-[#10B981] shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
             <span className="truncate">
               Running on <strong className="text-zinc-200">{memoryMb} MB</strong>{" "}
-              • {sleepingCount} sleeping
+              •{" "}
+              <span className={sleepingCount > 0 ? "font-semibold text-[#10B981]" : ""}>
+                {sleepingCount} sleeping
+              </span>
             </span>
           </div>
         </div>
