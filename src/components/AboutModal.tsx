@@ -20,10 +20,10 @@ interface AboutModalProps {
 }
 
 const APP_VERSION = "v1.0.0";
-const GITHUB_REPO = "https://github.com/molva-app/molva";
-const GITHUB_ISSUES = "https://github.com/molva-app/molva/issues";
+const GITHUB_REPO = "https://github.com/itskodimitrov/molva";
+const GITHUB_ISSUES = "https://github.com/itskodimitrov/molva/issues";
 const GITHUB_RELEASES_API =
-  "https://api.github.com/repos/molva-app/molva/releases/latest";
+  "https://api.github.com/repos/itskodimitrov/molva/releases/latest";
 
 const MIT_LICENSE_TEXT = `MIT License
 

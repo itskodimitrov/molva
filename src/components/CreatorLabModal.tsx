@@ -182,7 +182,7 @@ export const CreatorLabModal: React.FC<CreatorLabModalProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => onOpenUrl("https://github.com/molva-app/molva")}
+              onClick={() => onOpenUrl("https://github.com/itskodimitrov/molva")}
               className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
                 isLight
                   ? "border-slate-200 bg-white hover:bg-slate-100"
